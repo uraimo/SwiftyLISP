@@ -22,7 +22,33 @@
  *  SOFTWARE.
  */
 
-// Enum for S-Expressions
+/**
+ Recursive Enum used to represent symbolic expressions for this LISP.
+ 
+ Create a new evaluable symbolic expression with a string literal:
+ 
+        let sexpr: SExpr = "(car (quote (a b c d e)))"
+ 
+ Or call explicitly the `read(sexpr:)` method:
+ 
+        let myexpression = "(car (quote (a b c d e)))"
+        let sexpr = SExpr.read(myexpression)
+ 
+ And evaluate it in the default environment (where the LISP builtins are registered) using the `eval()` method:
+ 
+        print(sexpr.eval()) // Prints the "a" atom
+ 
+ The default builtins are: quote,car,cdr,cons,equal,atom,cond,lambda,label,defun.
+ 
+ Additionally the expression can be evaluated in a custom environment with a different set of named functions that
+ trasform an input S-Expression in an output S-Expression:
+ 
+        let myenv: [String: (SExpr)->SExpr] = ...
+        print(sexpr.eval(myenv))
+ 
+ The default environment is available through the global constant `defaultEnvironment`
+ 
+*/
 public enum SExpr{
     case Atom(String)
     case List([SExpr])
@@ -106,7 +132,7 @@ extension SExpr : CustomStringConvertible{
 }
 
 
-/// Extension needed to convert string literals to SExpr
+/// Extension needed to convert string literals to a SExpr
 extension SExpr : ExpressibleByStringLiteral,ExpressibleByUnicodeScalarLiteral,ExpressibleByExtendedGraphemeClusterLiteral {
 
     public init(stringLiteral value: String){
@@ -123,13 +149,13 @@ extension SExpr : ExpressibleByStringLiteral,ExpressibleByUnicodeScalarLiteral,E
     
 }
 
-/// Tokenize and parsing extension
+/// Read, Tokenize and parsing extension
 extension SExpr {
     
     /**
      Read a lisp string and convert it to a hierarchical S-Expression
     */
-    fileprivate static func read(_ sexpr:String) -> SExpr{
+    public static func read(_ sexpr:String) -> SExpr{
         
         struct ParseError: Error {
             var message: String
@@ -252,8 +278,10 @@ fileprivate enum Builtins:String{
     }
 }
 
-/// Global default builtin function environment
-fileprivate let defaultEnvironment: [String: (SExpr)->SExpr] = {
+/// Global default builtin functions environment
+///
+/// Contains definitions for: quote,car,cdr,cons,equal,atom,cond,lambda,label,defun.
+public let defaultEnvironment: [String: (SExpr)->SExpr] = {
     
     var env = [String: (SExpr)->SExpr]()
     env[Builtins.quote.rawValue] = { params in
