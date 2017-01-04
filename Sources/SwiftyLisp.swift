@@ -30,10 +30,10 @@ public enum SExpr{
     /**
      Evaluates this SExpression with the given functions environment
      
-     - Parameter environment: A set of named functions
+     - Parameter environment: A set of named functions or the default environment
      - Returns: the resulting SExpression after evaluation
      */
-    public func eval(_ environment: [String: (SExpr)->SExpr]) -> SExpr?{
+    public func eval(_ environment: [String: (SExpr)->SExpr] = defaultEnvironment) -> SExpr?{
         var node = self
         
         switch node {
@@ -253,7 +253,7 @@ fileprivate enum Builtins:String{
 }
 
 /// Global default builtin function environment
-public let environment: [String: (SExpr)->SExpr] = {
+fileprivate let defaultEnvironment: [String: (SExpr)->SExpr] = {
     
     var env = [String: (SExpr)->SExpr]()
     env[Builtins.quote.rawValue] = { params in
