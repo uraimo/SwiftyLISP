@@ -27,10 +27,21 @@ import XCTest
 import SwiftyLisp
 
 class SwiftyLispTests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        //// XCTAssertEqual(SwiftyLisp().text, "Hello, World!")
+    
+    func testBasicConversions() {
+        func eval(expr:String)->SExpr{
+            return SExpr(stringLiteral:expr).eval(environment)
+        }
+        
+        XCTAssertEqual(eval("(car ( cdr  ( quote (1 2 \"aaaa\"   4 5 true 6 7 () ))))"), .Atom("2"))
+        XCTAssertEqual(eval("(cdr (quote (1 2 3)))"),.List([.Atom("2"),.Atom("3")]))
+        XCTAssertEqual(eval("(quote (quote(quote (1 2))))"),.List([ .Atom("quote"),.List([ .Atom("quote"), .List([.Atom("1"),.Atom("2")])])]))
+        XCTAssertEqual(eval("(quote (A B C))"), .List([.Atom("A"),.Atom("B"),.Atom("C")]))
+        XCTAssertEqual(eval("(quote A)"), .Atom("A"))
+        XCTAssertEqual(eval("(quote 1)"), .Atom("1"))
+        XCTAssertEqual(eval("(atom A)"), .Atom("true"))
+        XCTAssertEqual(eval("(atom (quote (A B)))"), .List([]))
+        XCTAssertEqual(eval("(cond ((atom (quote A)) (quote B)) ((quote true) (quote C)))"), .Atom("B"))
     }
 }
 
@@ -38,7 +49,7 @@ class SwiftyLispTests: XCTestCase {
 extension SwiftyLispTests {
     static var allTests : [(String, (SwiftyLispTests) -> () throws -> Void)] {
         return [
-            ("testExample", testExample),
+            ("testBasicConversions", testBasicConversions),
         ]
     }
 }

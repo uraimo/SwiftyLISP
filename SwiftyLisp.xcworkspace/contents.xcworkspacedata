@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:SwiftyLisp.playground">
+   </FileRef>
+   <FileRef
       location = "container:SwiftyLisp.xcodeproj">
    </FileRef>
 </Workspace>

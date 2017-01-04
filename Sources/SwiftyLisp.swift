@@ -22,12 +22,18 @@
  *  SOFTWARE.
  */
 
-
-enum SExpr{
+// Enum for S-Expressions
+public enum SExpr{
     case Atom(String)
     case List([SExpr])
     
-    func eval(_ environment: [String: (SExpr)->SExpr]) -> SExpr?{
+    /**
+     Evaluates this SExpression with the given functions environment
+     
+     - Parameter environment: A set of named functions
+     - Returns: the resulting SExpression after evaluation
+     */
+    public func eval(_ environment: [String: (SExpr)->SExpr]) -> SExpr?{
         var node = self
         
         switch node {
@@ -40,19 +46,19 @@ enum SExpr{
             }
             
             // Evaluate all subexpressions
-            //print("Iterating on ",elements)
+            //TODO: print("Iterating on ",elements)
             for (id,expr) in elements.enumerated() {
                 if case .List(_) = expr {
                     elements[id] = expr.eval(environment)!
                 }
             }
-            //print("Result ",elements)
+            //TODO: print("Result ",elements)
             node = .List(elements)
             
             // Obtain a a reference to the function represented by the first atom and apply it
             if case let .Atom(value) = elements[0], let f = environment[value] {
                 let r = f(node)
-                //print("Evaluated \(value) with result: \(r)")
+                //TODO: print("Evaluated \(value) with result: \(r)")
                 return r
             }
             
@@ -62,7 +68,7 @@ enum SExpr{
     
 }
 
-
+/// Extension that implements a recursive Equatable
 extension SExpr : Equatable {
     public static func ==(lhs: SExpr, rhs: SExpr) -> Bool{
         switch(lhs,rhs){
@@ -82,6 +88,7 @@ extension SExpr : Equatable {
     }
 }
 
+/// Extension that implements CustomStringConvertible to pretty-print the S-Expression
 extension SExpr : CustomStringConvertible{
     public var description: String {
         switch self{
@@ -98,8 +105,10 @@ extension SExpr : CustomStringConvertible{
     }
 }
 
-extension SExpr : ExpressibleByStringLiteral {
-    
+
+/// Extension needed to convert string literals to SExpr
+extension SExpr : ExpressibleByStringLiteral,ExpressibleByUnicodeScalarLiteral,ExpressibleByExtendedGraphemeClusterLiteral {
+
     public init(stringLiteral value: String){
         self = SExpr.read(value)
     }
@@ -108,12 +117,19 @@ extension SExpr : ExpressibleByStringLiteral {
         self.init(stringLiteral: value)
     }
     
-    
     public init(unicodeScalarLiteral value: String){
         self.init(stringLiteral: value)
     }
     
-    private static func read(_ sexpr:String) -> SExpr{
+}
+
+/// Tokenize and parsing extension
+extension SExpr {
+    
+    /**
+     Read a lisp string and convert it to a hierarchical S-Expression
+    */
+    fileprivate static func read(_ sexpr:String) -> SExpr{
         
         struct ParseError: Error {
             var message: String
@@ -135,6 +151,12 @@ extension SExpr : ExpressibleByStringLiteral {
             case pOpen,pClose,textBlock(String)
         }
         
+        /**
+         Break down a string to a series of tokens
+         
+         - Parameter sexpr: Stringified S-Expression
+         - Returns: Series of tokens
+        */
         func tokenize(_ sexpr:String) -> [Token] {
             var res = [Token]()
             var tmpText = ""
@@ -165,6 +187,14 @@ extension SExpr : ExpressibleByStringLiteral {
             return res
         }
         
+        /**
+         Parses a series of tokens to obtain a hierachical S-Expression
+         
+         - Parameter tokens: Tokens to parse
+         - Parameter node: Parent S-Expression if available
+         
+         - Returns: Tuple with remaning tokens and resulting S-Expression
+        */
         func parse(_ tokens: [Token], node: SExpr? = nil) -> ([Token], SExpr?) {
             var tokens = tokens
             var node = node
@@ -207,15 +237,23 @@ extension SExpr : ExpressibleByStringLiteral {
 }
 
 
-enum Builtins:String{
+/// Basic builtins
+fileprivate enum Builtins:String{
     case quote,car,cdr,cons,equal,atom,cond,lambda,label,defun
     
-    public static func isQuoted(_ e: String) -> Bool {
-        return e == Builtins.quote.rawValue
+    /**
+     True if the given parameter is the quote builtin
+     
+     - Paramerer atom: Stringified atom
+     - Returns: True if the atom is the quote operation
+    */
+    public static func isQuoted(_ atom: String) -> Bool {
+        return atom == Builtins.quote.rawValue
     }
 }
 
-var environment: [String: (SExpr)->SExpr] = {
+/// Global default builtin function environment
+public let environment: [String: (SExpr)->SExpr] = {
     
     var env = [String: (SExpr)->SExpr]()
     env[Builtins.quote.rawValue] = { params in
@@ -294,6 +332,5 @@ var environment: [String: (SExpr)->SExpr] = {
 
     return env
 }()
-
 
 
