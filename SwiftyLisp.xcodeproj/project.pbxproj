@@ -7,24 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		460FAD341DFB61B900FCD2F0 /* SwiftyLisp.h in Headers */ = {isa = PBXBuildFile; fileRef = 460FAD331DFB61A700FCD2F0 /* SwiftyLisp.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		460FAD351DFB624200FCD2F0 /* SwiftyLisp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460FAD311DFB617300FCD2F0 /* SwiftyLisp.swift */; };
 		460FAD361DFB627700FCD2F0 /* SwiftyLisp.h in Headers */ = {isa = PBXBuildFile; fileRef = 460FAD331DFB61A700FCD2F0 /* SwiftyLisp.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		460FAD371DFB627B00FCD2F0 /* SwiftyLisp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460FAD311DFB617300FCD2F0 /* SwiftyLisp.swift */; };
-		46664B861DFB4C24005C1B52 /* Sources in Resources */ = {isa = PBXBuildFile; fileRef = 46664B851DFB4C24005C1B52 /* Sources */; };
-		46664B881DFB4C2C005C1B52 /* SwiftyLispTests in Resources */ = {isa = PBXBuildFile; fileRef = 46664B871DFB4C2C005C1B52 /* SwiftyLispTests */; };
-		52D6D9871BEFF229002C0205 /* SwiftyLisp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52D6D97C1BEFF229002C0205 /* SwiftyLisp.framework */; };
+		469DFFFB1E23967D00D3B5F0 /* SwiftyLisp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469DFFFA1E23967D00D3B5F0 /* SwiftyLisp.swift */; };
+		469DFFFE1E23969200D3B5F0 /* SwiftyLispTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469DFFFC1E23968700D3B5F0 /* SwiftyLispTests.swift */; };
+		46FA30CA1E2395F3008C4F0E /* SwiftyLispTests in Sources */ = {isa = PBXBuildFile; fileRef = 46664B871DFB4C2C005C1B52 /* SwiftyLispTests */; };
 		DD7502881C68FEDE006590AF /* SwiftyLisp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52D6DA0F1BF000BD002C0205 /* SwiftyLisp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		52D6D9881BEFF229002C0205 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 52D6D9731BEFF229002C0205 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 52D6D97B1BEFF229002C0205;
-			remoteInfo = SwiftyLisp;
-		};
 		DD7502801C68FCFC006590AF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 52D6D9731BEFF229002C0205 /* Project object */;
@@ -35,12 +25,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		460FAD311DFB617300FCD2F0 /* SwiftyLisp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SwiftyLisp.swift; path = Sources/SwiftyLisp.swift; sourceTree = "<group>"; };
 		460FAD331DFB61A700FCD2F0 /* SwiftyLisp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftyLisp.h; sourceTree = "<group>"; };
-		46664B851DFB4C24005C1B52 /* Sources */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Sources; path = /Users/mainuser/tmp/swiftylisp/Sources; sourceTree = "<absolute>"; };
-		46664B871DFB4C2C005C1B52 /* SwiftyLispTests */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SwiftyLispTests; path = Tests/SwiftyLispTests; sourceTree = "<group>"; };
-		52D6D97C1BEFF229002C0205 /* SwiftyLisp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyLisp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		52D6D9861BEFF229002C0205 /* SwiftyLisp-iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SwiftyLisp-iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		46664B871DFB4C2C005C1B52 /* SwiftyLispTests */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SwiftyLispTests; path = /Users/mainuser/tmp/swiftylisp/Tests/SwiftyLispTests; sourceTree = "<absolute>"; };
+		469DFFFA1E23967D00D3B5F0 /* SwiftyLisp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyLisp.swift; path = Sources/SwiftyLisp.swift; sourceTree = "<group>"; };
+		469DFFFC1E23968700D3B5F0 /* SwiftyLispTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyLispTests.swift; path = Tests/SwiftyLispTests/SwiftyLispTests.swift; sourceTree = "<group>"; };
 		52D6DA0F1BF000BD002C0205 /* SwiftyLisp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyLisp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD2FAA261CD0B6D800659CF4 /* SwiftyLisp.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SwiftyLisp.plist; sourceTree = "<group>"; };
 		AD2FAA281CD0B6E100659CF4 /* SwiftyLispTests.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SwiftyLispTests.plist; sourceTree = "<group>"; };
@@ -48,21 +36,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		52D6D9781BEFF229002C0205 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		52D6D9831BEFF229002C0205 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				52D6D9871BEFF229002C0205 /* SwiftyLisp.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		52D6DA0B1BF000BD002C0205 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -81,12 +54,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		469DFFF81E23966500D3B5F0 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				469DFFFA1E23967D00D3B5F0 /* SwiftyLisp.swift */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		469DFFF91E23966C00D3B5F0 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				469DFFFC1E23968700D3B5F0 /* SwiftyLispTests.swift */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
 		52D6D9721BEFF229002C0205 = {
 			isa = PBXGroup;
 			children = (
+				469DFFF81E23966500D3B5F0 /* Sources */,
+				469DFFF91E23966C00D3B5F0 /* Tests */,
 				460FAD331DFB61A700FCD2F0 /* SwiftyLisp.h */,
-				460FAD311DFB617300FCD2F0 /* SwiftyLisp.swift */,
-				46664B871DFB4C2C005C1B52 /* SwiftyLispTests */,
 				52D6D99C1BEFF38C002C0205 /* Configs */,
 				52D6D97D1BEFF229002C0205 /* Products */,
 			);
@@ -95,8 +84,6 @@
 		52D6D97D1BEFF229002C0205 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				52D6D97C1BEFF229002C0205 /* SwiftyLisp.framework */,
-				52D6D9861BEFF229002C0205 /* SwiftyLisp-iOS Tests.xctest */,
 				52D6DA0F1BF000BD002C0205 /* SwiftyLisp.framework */,
 				DD75027A1C68FCFC006590AF /* SwiftyLisp-macOS Tests.xctest */,
 			);
@@ -131,14 +118,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		52D6D9791BEFF229002C0205 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				460FAD341DFB61B900FCD2F0 /* SwiftyLisp.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		52D6DA0C1BF000BD002C0205 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -150,42 +129,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		52D6D97B1BEFF229002C0205 /* SwiftyLisp-iOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 52D6D9901BEFF229002C0205 /* Build configuration list for PBXNativeTarget "SwiftyLisp-iOS" */;
-			buildPhases = (
-				52D6D9771BEFF229002C0205 /* Sources */,
-				52D6D9781BEFF229002C0205 /* Frameworks */,
-				52D6D9791BEFF229002C0205 /* Headers */,
-				52D6D97A1BEFF229002C0205 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "SwiftyLisp-iOS";
-			productName = SwiftyLisp;
-			productReference = 52D6D97C1BEFF229002C0205 /* SwiftyLisp.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		52D6D9851BEFF229002C0205 /* SwiftyLisp-iOS Tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 52D6D9931BEFF229002C0205 /* Build configuration list for PBXNativeTarget "SwiftyLisp-iOS Tests" */;
-			buildPhases = (
-				52D6D9821BEFF229002C0205 /* Sources */,
-				52D6D9831BEFF229002C0205 /* Frameworks */,
-				52D6D9841BEFF229002C0205 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				52D6D9891BEFF229002C0205 /* PBXTargetDependency */,
-			);
-			name = "SwiftyLisp-iOS Tests";
-			productName = SwiftyLispTests;
-			productReference = 52D6D9861BEFF229002C0205 /* SwiftyLisp-iOS Tests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		52D6DA0E1BF000BD002C0205 /* SwiftyLisp-macOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 52D6DA201BF000BD002C0205 /* Build configuration list for PBXNativeTarget "SwiftyLisp-macOS" */;
@@ -232,18 +175,9 @@
 				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = com.uraimo;
 				TargetAttributes = {
-					52D6D97B1BEFF229002C0205 = {
-						CreatedOnToolsVersion = 7.1;
-						LastSwiftMigration = 0800;
-						ProvisioningStyle = Automatic;
-					};
-					52D6D9851BEFF229002C0205 = {
-						CreatedOnToolsVersion = 7.1;
-						LastSwiftMigration = 0800;
-					};
 					52D6DA0E1BF000BD002C0205 = {
 						CreatedOnToolsVersion = 7.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0820;
 					};
 					DD7502791C68FCFC006590AF = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -263,31 +197,13 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				52D6D97B1BEFF229002C0205 /* SwiftyLisp-iOS */,
 				52D6DA0E1BF000BD002C0205 /* SwiftyLisp-macOS */,
-				52D6D9851BEFF229002C0205 /* SwiftyLisp-iOS Tests */,
 				DD7502791C68FCFC006590AF /* SwiftyLisp-macOS Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		52D6D97A1BEFF229002C0205 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				46664B881DFB4C2C005C1B52 /* SwiftyLispTests in Resources */,
-				46664B861DFB4C24005C1B52 /* Sources in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		52D6D9841BEFF229002C0205 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		52D6DA0D1BF000BD002C0205 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -305,26 +221,11 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		52D6D9771BEFF229002C0205 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				460FAD351DFB624200FCD2F0 /* SwiftyLisp.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		52D6D9821BEFF229002C0205 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		52D6DA0A1BF000BD002C0205 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				460FAD371DFB627B00FCD2F0 /* SwiftyLisp.swift in Sources */,
+				469DFFFB1E23967D00D3B5F0 /* SwiftyLisp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,17 +233,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46FA30CA1E2395F3008C4F0E /* SwiftyLispTests in Sources */,
+				469DFFFE1E23969200D3B5F0 /* SwiftyLispTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		52D6D9891BEFF229002C0205 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 52D6D97B1BEFF229002C0205 /* SwiftyLisp-iOS */;
-			targetProxy = 52D6D9881BEFF229002C0205 /* PBXContainerItemProxy */;
-		};
 		DD7502811C68FCFC006590AF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 52D6DA0E1BF000BD002C0205 /* SwiftyLisp-macOS */;
@@ -448,83 +346,11 @@
 			};
 			name = Release;
 		};
-		52D6D9911BEFF229002C0205 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ENABLE_MODULES = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Configs/SwiftyLisp.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.uraimo.SwiftyLisp;
-				PRODUCT_NAME = SwiftyLisp;
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
-			};
-			name = Debug;
-		};
-		52D6D9921BEFF229002C0205 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ENABLE_MODULES = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Configs/SwiftyLisp.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.uraimo.SwiftyLisp;
-				PRODUCT_NAME = SwiftyLisp;
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
-			};
-			name = Release;
-		};
-		52D6D9941BEFF229002C0205 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CLANG_ENABLE_MODULES = YES;
-				INFOPLIST_FILE = Configs/SwiftyLispTests.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.SwiftyLisp.SwiftyLisp-iOS-Tests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
-			};
-			name = Debug;
-		};
-		52D6D9951BEFF229002C0205 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CLANG_ENABLE_MODULES = YES;
-				INFOPLIST_FILE = Configs/SwiftyLispTests.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.SwiftyLisp.SwiftyLisp-iOS-Tests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
-			};
-			name = Release;
-		};
 		52D6DA211BF000BD002C0205 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -540,6 +366,7 @@
 				PRODUCT_NAME = SwiftyLisp;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -548,6 +375,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -609,24 +437,6 @@
 			buildConfigurations = (
 				52D6D98E1BEFF229002C0205 /* Debug */,
 				52D6D98F1BEFF229002C0205 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		52D6D9901BEFF229002C0205 /* Build configuration list for PBXNativeTarget "SwiftyLisp-iOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				52D6D9911BEFF229002C0205 /* Debug */,
-				52D6D9921BEFF229002C0205 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		52D6D9931BEFF229002C0205 /* Build configuration list for PBXNativeTarget "SwiftyLisp-iOS Tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				52D6D9941BEFF229002C0205 /* Debug */,
-				52D6D9951BEFF229002C0205 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

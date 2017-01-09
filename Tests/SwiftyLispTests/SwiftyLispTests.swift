@@ -29,8 +29,8 @@ import SwiftyLisp
 class SwiftyLispTests: XCTestCase {
     
     func testBasicConversions() {
-        func eval(expr:String)->SExpr{
-            return SExpr(stringLiteral:expr).eval(environment)
+        func eval(_ expr:String)->SExpr{
+            return SExpr(stringLiteral:expr).eval()!
         }
         
         XCTAssertEqual(eval("(car ( cdr  ( quote (1 2 \"aaaa\"   4 5 true 6 7 () ))))"), .Atom("2"))
