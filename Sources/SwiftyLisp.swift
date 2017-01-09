@@ -94,7 +94,7 @@ public enum SExpr{
     
 }
 
-/// Extension that implements a recursive Equatable
+/// Extension that implements a recursive Equatable, needed for the equal atom
 extension SExpr : Equatable {
     public static func ==(lhs: SExpr, rhs: SExpr) -> Bool{
         switch(lhs,rhs){
@@ -281,7 +281,7 @@ fileprivate enum Builtins:String{
 /// Global default builtin functions environment
 ///
 /// Contains definitions for: quote,car,cdr,cons,equal,atom,cond,lambda,label,defun.
-public let defaultEnvironment: [String: (SExpr)->SExpr] = {
+public var defaultEnvironment: [String: (SExpr)->SExpr] = {
     
     var env = [String: (SExpr)->SExpr]()
     env[Builtins.quote.rawValue] = { params in
