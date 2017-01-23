@@ -27,28 +27,28 @@
  
  Create a new evaluable symbolic expression with a string literal:
  
-        let sexpr: SExpr = "(car (quote (a b c d e)))"
+ let sexpr: SExpr = "(car (quote (a b c d e)))"
  
  Or call explicitly the `read(sexpr:)` method:
  
-        let myexpression = "(car (quote (a b c d e)))"
-        let sexpr = SExpr.read(myexpression)
+ let myexpression = "(car (quote (a b c d e)))"
+ let sexpr = SExpr.read(myexpression)
  
  And evaluate it in the default environment (where the LISP builtins are registered) using the `eval()` method:
  
-        print(sexpr.eval()) // Prints the "a" atom
+ print(sexpr.eval()) // Prints the "a" atom
  
  The default builtins are: quote,car,cdr,cons,equal,atom,cond,lambda,label,defun.
  
  Additionally the expression can be evaluated in a custom environment with a different set of named functions that
  trasform an input S-Expression in an output S-Expression:
  
-        let myenv: [String: (SExpr)->SExpr] = ...
-        print(sexpr.eval(myenv))
+ let myenv: [String: (SExpr)->SExpr] = ...
+ print(sexpr.eval(myenv))
  
  The default environment is available through the global constant `defaultEnvironment`
  
-*/
+ */
 public enum SExpr{
     case Atom(String)
     case List([SExpr])
@@ -113,6 +113,7 @@ public enum SExpr{
     
 }
 
+
 /// Extension that implements a recursive Equatable, needed for the equal atom
 extension SExpr : Equatable {
     public static func ==(lhs: SExpr, rhs: SExpr) -> Bool{
@@ -132,6 +133,7 @@ extension SExpr : Equatable {
         }
     }
 }
+
 
 /// Extension that implements CustomStringConvertible to pretty-print the S-Expression
 extension SExpr : CustomStringConvertible{
@@ -153,7 +155,7 @@ extension SExpr : CustomStringConvertible{
 
 /// Extension needed to convert string literals to a SExpr
 extension SExpr : ExpressibleByStringLiteral,ExpressibleByUnicodeScalarLiteral,ExpressibleByExtendedGraphemeClusterLiteral {
-
+    
     public init(stringLiteral value: String){
         self = SExpr.read(value)
     }
@@ -168,12 +170,13 @@ extension SExpr : ExpressibleByStringLiteral,ExpressibleByUnicodeScalarLiteral,E
     
 }
 
+
 /// Read, Tokenize and parsing extension
 extension SExpr {
     
     /**
-     Read a lisp string and convert it to a hierarchical S-Expression
-    */
+     Read a LISP string and convert it to a hierarchical S-Expression
+     */
     public static func read(_ sexpr:String) -> SExpr{
         
         struct ParseError: Error {
@@ -201,7 +204,7 @@ extension SExpr {
          
          - Parameter sexpr: Stringified S-Expression
          - Returns: Series of tokens
-        */
+         */
         func tokenize(_ sexpr:String) -> [Token] {
             var res = [Token]()
             var tmpText = ""
@@ -239,7 +242,7 @@ extension SExpr {
          - Parameter node: Parent S-Expression if available
          
          - Returns: Tuple with remaning tokens and resulting S-Expression
-        */
+         */
         func parse(_ tokens: [Token], node: SExpr? = nil) -> ([Token], SExpr?) {
             var tokens = tokens
             var node = node
@@ -291,7 +294,7 @@ fileprivate enum Builtins:String{
      
      - Parameter atom: Stringified atom
      - Returns: True if the atom is the quote operation
-    */
+     */
     public static func isQuote(_ atom: String) -> Bool {
         return atom == Builtins.quote.rawValue
     }
@@ -306,6 +309,7 @@ fileprivate enum Builtins:String{
         return atom == Builtins.defun.rawValue
     }
 }
+
 
 /// Local environment for locally defined functions
 public var localEnvironment = [String: (SExpr)->SExpr]()
@@ -345,16 +349,6 @@ public var defaultEnvironment: [String: (SExpr)->SExpr] = {
             return .List([])
         }
     }
-    env[Builtins.atom.rawValue] = { params in
-        guard case let .List(parameters) = params, parameters.count == 2 else {return .List([])}
-        
-        switch parameters[1] {
-        case .Atom:
-            return .Atom("true")
-        default:
-            return .List([])
-        }
-    }
     env[Builtins.equal.rawValue] = {params in
         guard case let .List(parameters) = params, parameters.count == 2 else {return .List([])}
         guard case let .List(elements) = params else {return .List([])}
@@ -377,6 +371,16 @@ public var defaultEnvironment: [String: (SExpr)->SExpr] = {
             return .List([])
         }
     }
+    env[Builtins.atom.rawValue] = { params in
+        guard case let .List(parameters) = params, parameters.count == 2 else {return .List([])}
+        
+        switch parameters[1] {
+        case .Atom:
+            return .Atom("true")
+        default:
+            return .List([])
+        }
+    }
     env[Builtins.cond.rawValue] = { params in
         guard case let .List(parameters) = params, parameters.count > 1 else {return .List([])}
         
@@ -389,7 +393,7 @@ public var defaultEnvironment: [String: (SExpr)->SExpr] = {
         }
         return .List([])
     }
-    env[Builtins.defun.rawValue] = {
+    let defun: (SExpr)->SExpr = {
         params in
         guard case let .List(parameters) = params, parameters.count == 4 else {return .List([])}
         
@@ -397,7 +401,7 @@ public var defaultEnvironment: [String: (SExpr)->SExpr] = {
         guard case let .List(vars) = parameters[2] else {return .List([])}
         
         let lambda = parameters[3]
-
+        
         let f: (SExpr)->SExpr = { params in
             guard case var .List(p) = params else {return .List([])}
             p = Array(p.dropFirst(1))
@@ -406,13 +410,14 @@ public var defaultEnvironment: [String: (SExpr)->SExpr] = {
             if let result = lambda.replace(this:vars, with:p).eval(){
                 return result
             }else{
-              return .List([])
+                return .List([])
             }
         }
         
         localEnvironment[lname] = f
         return .List([])
     }
+    env[Builtins.defun.rawValue] = defun
     
     return env
 }()

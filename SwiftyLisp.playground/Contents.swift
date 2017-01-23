@@ -15,7 +15,10 @@ print(e2.eval()!)  //B
 
 print(localEnvironment)
 
-let e3:SExpr = "(TEST (quote (a b c)) b)"
-
+var e3:SExpr = "(TEST b (quote (a b c)))"
 print(e3)
-print(e3.eval()!)  // false
+print(e3.eval()!)  // true
+
+e3 = "(TEST (quote (a b c)) b)"
+print(e3)
+print(e3.eval()!)  // false ()
