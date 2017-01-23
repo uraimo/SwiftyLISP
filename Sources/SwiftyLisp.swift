@@ -69,7 +69,7 @@ public enum SExpr{
             var skip = false
             
             if elements.count > 1, case let .Atom(value) = elements[0] {
-                skip = Builtins.isQuoted(value) || Builtins.isDefine(value)
+                skip = Builtins.isQuote(value) || Builtins.isDefine(value)
             }
             
             // Evaluate all subexpressions
@@ -292,7 +292,7 @@ fileprivate enum Builtins:String{
      - Parameter atom: Stringified atom
      - Returns: True if the atom is the quote operation
     */
-    public static func isQuoted(_ atom: String) -> Bool {
+    public static func isQuote(_ atom: String) -> Bool {
         return atom == Builtins.quote.rawValue
     }
     
