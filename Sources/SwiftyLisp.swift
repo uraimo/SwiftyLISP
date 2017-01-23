@@ -93,6 +93,24 @@ public enum SExpr{
         }
     }
     
+    public func replace(this:[SExpr], with:[SExpr]) -> SExpr{
+        let node = self
+        
+        switch node {
+        case .Atom:
+            if this.contains(node) {
+                return with[this.index(of: node)!]
+            }
+            return node
+        case var .List(elements):
+            // Search all subexpressions
+            elements = elements.map{
+                return $0.replace(this: this, with: with)
+            }
+            return .List(elements)
+        }
+    }
+    
 }
 
 /// Extension that implements a recursive Equatable, needed for the equal atom
@@ -271,13 +289,26 @@ fileprivate enum Builtins:String{
     /**
      True if the given parameter is the quote builtin
      
-     - Paramerer atom: Stringified atom
+     - Parameter atom: Stringified atom
      - Returns: True if the atom is the quote operation
     */
     public static func isQuoted(_ atom: String) -> Bool {
         return atom == Builtins.quote.rawValue
     }
+    
+    /**
+     True if the given parameter is a definition builtin
+     
+     - Parameter atom: Stringified atom
+     - Returns: True if the atom is a definition operation
+     */
+    public static func isDefine(_ atom: String) -> Bool {
+        return atom == Builtins.defun.rawValue
+    }
 }
+
+/// Local environment for locally defined functions
+public var localEnvironment = [String: (SExpr)->SExpr]()
 
 /// Global default builtin functions environment
 ///
@@ -358,7 +389,31 @@ public var defaultEnvironment: [String: (SExpr)->SExpr] = {
         }
         return .List([])
     }
+    env[Builtins.defun.rawValue] = {
+        params in
+        guard case let .List(parameters) = params, parameters.count == 4 else {return .List([])}
+        
+        guard case let .Atom(lname) = parameters[1] else {return .List([])}
+        guard case let .List(vars) = parameters[2] else {return .List([])}
+        
+        let lambda = parameters[3]
 
+        let f: (SExpr)->SExpr = { params in
+            guard case var .List(p) = params else {return .List([])}
+            p = Array(p.dropFirst(1))
+            
+            // Replace parameters in the lambda with values
+            if let result = lambda.replace(this:vars, with:p).eval(){
+                return result
+            }else{
+              return .List([])
+            }
+        }
+        
+        localEnvironment[lname] = f
+        return .List([])
+    }
+    
     return env
 }()
 

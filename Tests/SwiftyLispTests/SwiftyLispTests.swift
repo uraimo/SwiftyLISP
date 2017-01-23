@@ -42,6 +42,11 @@ class SwiftyLispTests: XCTestCase {
         XCTAssertEqual(eval("(atom A)"), .Atom("true"))
         XCTAssertEqual(eval("(atom (quote (A B)))"), .List([]))
         XCTAssertEqual(eval("(cond ((atom (quote A)) (quote B)) ((quote true) (quote C)))"), .Atom("B"))
+        
+        XCTAssertEqual(eval("(defun TEST (x y) (atom x))"), .List([]))
+        XCTAssertEqual(eval("(TEST a b)"), .Atom("true"))
+        XCTAssertEqual(eval("(TEST (quote (1 2 3)) b)"), .List([]))
+
     }
 }
 
