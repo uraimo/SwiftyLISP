@@ -66,25 +66,26 @@ public enum SExpr{
         case .Atom:
             return node
         case var .List(elements):
-            //Quoted, stop evaluation
-            if elements.count > 1, case let .Atom(value) = elements[0], Builtins.isQuoted(value) {
-                return elements[1]
+            var skip = false
+            
+            if elements.count > 1, case let .Atom(value) = elements[0] {
+                skip = Builtins.isQuoted(value) || Builtins.isDefine(value)
             }
             
             // Evaluate all subexpressions
-            //TODO: print("Iterating on ",elements)
-            for (id,expr) in elements.enumerated() {
-                if case .List(_) = expr {
-                    elements[id] = expr.eval(environment)!
+            if !skip {
+                elements = elements.map{
+                    if case .List(_) = $0 {
+                        return $0.eval(environment)!
+                    }
+                    return $0
                 }
             }
-            //TODO: print("Result ",elements)
             node = .List(elements)
             
             // Obtain a a reference to the function represented by the first atom and apply it
-            if case let .Atom(value) = elements[0], let f = environment[value] {
+            if case let .Atom(value) = elements[0], let f = environment[value] ?? localEnvironment[value] {
                 let r = f(node)
-                //TODO: print("Evaluated \(value) with result: \(r)")
                 return r
             }
             
