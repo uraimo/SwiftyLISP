@@ -84,7 +84,7 @@ public enum SExpr{
             node = .List(elements)
             
             // Obtain a a reference to the function represented by the first atom and apply it
-            if case let .Atom(value) = elements[0], let f = environment[value] ?? localEnvironment[value] {
+            if case let .Atom(value) = elements[0], let f = localEnvironment[value] ?? environment[value] {
                 let r = f(node)
                 return r
             }
