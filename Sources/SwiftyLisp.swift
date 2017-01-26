@@ -289,7 +289,7 @@ extension SExpr {
 
 /// Basic builtins
 fileprivate enum Builtins:String{
-    case quote,car,cdr,cons,equal,atom,cond,lambda,defun
+    case quote,car,cdr,cons,equal,atom,cond,lambda,defun,list
     
     /**
      True if the given parameter is the quote builtin
@@ -445,6 +445,21 @@ public var defaultEnvironment: [String: (SExpr)->SExpr] = {
         
         localContext[fname] = f
         return .Atom(fname)
+    }
+    //List implemented as a classic builtin instead of a series of cons
+    env[Builtins.list.rawValue] = { params in
+        guard case let .List(parameters) = params, parameters.count > 1 else {return .List([])}
+        var res: [SExpr] = []
+        
+        for el in parameters.dropFirst(1) {
+            switch el {
+            case .Atom:
+                res.append(el)
+            case let .List(els):
+                res.append(contentsOf: els)
+            }
+        }
+        return .List(res)
     }
     
     return env
