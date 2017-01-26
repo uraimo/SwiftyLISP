@@ -85,8 +85,8 @@ public enum SExpr{
             }
             node = .List(elements)
             
-            // Obtain a a reference to the function represented by the first atom and apply it
-            if elements.count > 0, case let .Atom(value) = elements[0], let f = localEnvironment[value] ?? environment[value] {
+            // Obtain a a reference to the function represented by the first atom and apply it, local definitions shadow global ones
+            if elements.count > 0, case let .Atom(value) = elements[0], let f = localContext[value] ?? environment[value] {
                 let r = f(node)
                 return r
             }
@@ -315,7 +315,7 @@ fileprivate enum Builtins:String{
 
 
 /// Local environment for locally defined functions
-public var localEnvironment = [String: (SExpr)->SExpr]()
+public var localContext = [String: (SExpr)->SExpr]()
 
 /// Global default builtin functions environment
 ///
@@ -417,7 +417,7 @@ public var defaultEnvironment: [String: (SExpr)->SExpr] = {
             }
         }
         
-        localEnvironment[lname] = f
+        localContext[lname] = f
         return .List([])
     }
     env[Builtins.defun.rawValue] = defun
@@ -433,7 +433,7 @@ public var defaultEnvironment: [String: (SExpr)->SExpr] = {
             guard case var .List(p) = params else {return .List([])}
             p = Array(p.dropFirst(1))
             //Remove temporary closure
-            localEnvironment[fname] = nil
+            localContext[fname] = nil
             
             // Replace parameters in the lambda with values
             if let result = lambda.replace(this:vars, with:p).eval(){
@@ -443,7 +443,7 @@ public var defaultEnvironment: [String: (SExpr)->SExpr] = {
             }
         }
         
-        localEnvironment[fname] = f
+        localContext[fname] = f
         return .Atom(fname)
     }
     

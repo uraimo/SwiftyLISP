@@ -13,7 +13,7 @@ let e2:SExpr = "(defun TEST (x y) (atom x))"
 print(e2)
 print(e2.eval()!)  //B
 
-print(localEnvironment)
+print(localContext)
 
 var e3:SExpr = "(TEST b (quote (a b c)))"
 print(e3)
@@ -28,4 +28,4 @@ e3 = "( (lambda (x y) (atom x)) a b)"
 print(e3)
 print(e3.eval()!)
 print(e3.eval()!)
-print(localEnvironment)
+print(localContext)
