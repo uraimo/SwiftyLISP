@@ -22,3 +22,10 @@ print(e3.eval()!)  // true
 e3 = "(TEST (quote (a b c)) b)"
 print(e3)
 print(e3.eval()!)  // false ()
+
+
+e3 = "( (lambda (x y) (atom x)) a b)"
+print(e3)
+print(e3.eval()!)
+print(e3.eval()!)
+print(localEnvironment)

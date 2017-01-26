@@ -27,12 +27,11 @@ import XCTest
 import SwiftyLisp
 
 class SwiftyLispTests: XCTestCase {
+    func eval(_ expr:String)->SExpr{
+        return SExpr(stringLiteral:expr).eval()!
+    }
     
-    func testBasicConversions() {
-        func eval(_ expr:String)->SExpr{
-            return SExpr(stringLiteral:expr).eval()!
-        }
-        
+    func testBasicAtoms() {
         XCTAssertEqual(eval("(car ( cdr  ( quote (1 2 \"aaaa\"   4 5 true 6 7 () ))))"), .Atom("2"))
         XCTAssertEqual(eval("(cdr (quote (1 2 3)))"),.List([.Atom("2"),.Atom("3")]))
         XCTAssertEqual(eval("(quote (quote(quote (1 2))))"),.List([ .Atom("quote"),.List([ .Atom("quote"), .List([.Atom("1"),.Atom("2")])])]))
@@ -42,14 +41,19 @@ class SwiftyLispTests: XCTestCase {
         XCTAssertEqual(eval("(atom A)"), .Atom("true"))
         XCTAssertEqual(eval("(atom (quote (A B)))"), .List([]))
         XCTAssertEqual(eval("(cond ((atom (quote A)) (quote B)) ((quote true) (quote C)))"), .Atom("B"))
-        
-        XCTAssertEqual(eval("((car (quote (atom))) A)"),.Atom("true"))
-        XCTAssertEqual(eval("((car (quote (atom))) ())"),.List([]))
-        
+    }
+    
+    func testFunctionDefinitions() {
+        XCTAssertEqual(eval("( (lambda (x y) (atom x)) () b)"), .List([]))
+        XCTAssertEqual(eval("( (lambda (x y) (atom x)) a b)"), .Atom("true"))
         XCTAssertEqual(eval("(defun TEST (x y) (atom x))"), .List([]))
         XCTAssertEqual(eval("(TEST a b)"), .Atom("true"))
         XCTAssertEqual(eval("(TEST (quote (1 2 3)) b)"), .List([]))
-
+    }
+    
+    func testComplexExpressions() {
+        XCTAssertEqual(eval("((car (quote (atom))) A)"),.Atom("true"))
+        XCTAssertEqual(eval("((car (quote (atom))) ())"),.List([]))
     }
 }
 

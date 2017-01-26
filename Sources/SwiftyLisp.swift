@@ -22,6 +22,8 @@
  *  SOFTWARE.
  */
 
+import Foundation
+
 /**
  Recursive Enum used to represent symbolic expressions for this LISP.
  
@@ -287,7 +289,7 @@ extension SExpr {
 
 /// Basic builtins
 fileprivate enum Builtins:String{
-    case quote,car,cdr,cons,equal,atom,cond,lambda,label,defun
+    case quote,car,cdr,cons,equal,atom,cond,lambda,defun
     
     /**
      True if the given parameter is the quote builtin
@@ -306,7 +308,8 @@ fileprivate enum Builtins:String{
      - Returns: True if the atom is a definition operation
      */
     public static func isDefine(_ atom: String) -> Bool {
-        return atom == Builtins.defun.rawValue
+        return (atom == Builtins.defun.rawValue) ||
+               (atom == Builtins.lambda.rawValue)
     }
 }
 
@@ -418,6 +421,31 @@ public var defaultEnvironment: [String: (SExpr)->SExpr] = {
         return .List([])
     }
     env[Builtins.defun.rawValue] = defun
+    env[Builtins.lambda.rawValue] = { params in
+        guard case let .List(parameters) = params, parameters.count == 3 else {return .List([])}
+        
+        guard case let .List(vars) = parameters[1] else {return .List([])}
+        let lambda = parameters[2]
+        //Assign a name for this temporary closure
+        let fname = "TMP$"+String(arc4random_uniform(UInt32.max))
+        
+        let f: (SExpr)->SExpr = { params in
+            guard case var .List(p) = params else {return .List([])}
+            p = Array(p.dropFirst(1))
+            //Remove temporary closure
+            localEnvironment[fname] = nil
+            
+            // Replace parameters in the lambda with values
+            if let result = lambda.replace(this:vars, with:p).eval(){
+                return result
+            }else{
+                return .List([])
+            }
+        }
+        
+        localEnvironment[fname] = f
+        return .Atom(fname)
+    }
     
     return env
 }()
