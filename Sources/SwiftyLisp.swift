@@ -329,14 +329,14 @@ public var defaultEnvironment: [String: (SExpr)->SExpr] = {
     }
     env[Builtins.car.rawValue] = { params in
         guard case let .List(parameters) = params, parameters.count == 2 else {return .List([])}
-        guard case let .List(elements) = parameters[1] else {return .List([])}
+        guard case let .List(elements) = parameters[1], elements.count > 0 else {return .List([])}
         
         return elements.first!
     }
     env[Builtins.cdr.rawValue] = { params in
         guard case let .List(parameters) = params, parameters.count == 2 else {return .List([])}
         
-        guard case let .List(elements) = parameters[1] else {return .List([])}
+        guard case let .List(elements) = parameters[1], elements.count > 1 else {return .List([])}
         
         return .List(Array(elements.dropFirst(1)))
     }
@@ -354,7 +354,7 @@ public var defaultEnvironment: [String: (SExpr)->SExpr] = {
     }
     env[Builtins.equal.rawValue] = {params in
         guard case let .List(parameters) = params, parameters.count == 2 else {return .List([])}
-        guard case let .List(elements) = params else {return .List([])}
+        guard case let .List(elements) = params, elements.count == 2 else {return .List([])}
         
         var me = env[Builtins.equal.rawValue]!
         

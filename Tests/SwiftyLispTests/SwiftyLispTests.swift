@@ -52,6 +52,8 @@ class SwiftyLispTests: XCTestCase {
         XCTAssertEqual(eval("(defun TEST (x y) (atom x))"), .List([]))
         XCTAssertEqual(eval("(TEST a b)"), .Atom("true"))
         XCTAssertEqual(eval("(TEST (quote (1 2 3)) b)"), .List([]))
+        XCTAssertEqual(eval("(defun ff (x) (cond ((atom x) x) (true (ff (car x)))))"), .List([]))
+        XCTAssertEqual(eval("(ff (quote ((a b) c)))"), .Atom("true"))
     }
     
     func testComplexExpressions() {
