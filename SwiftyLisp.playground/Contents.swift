@@ -29,15 +29,3 @@ print(e3)
 print(e3.eval()!)
 print(e3.eval()!)
 print(localContext)
-
-
-e3 = "(defun ff (x) (cond ((atom x) x) (true (ff (car x)))))"
-
-print(e3)
-print(e3.eval()!)
-print(localContext)
-
-e3 = "(ff (quote ((a b) c)))"
-
-print(e3)
-print(e3.eval()!)

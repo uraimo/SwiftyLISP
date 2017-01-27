@@ -71,7 +71,7 @@ public enum SExpr{
             var skip = false
             
             if elements.count > 1, case let .Atom(value) = elements[0] {
-                skip = Builtins.isQuote(value) || Builtins.isDefine(value)
+                skip = Builtins.mustSkip(value)
             }
             
             // Evaluate all subexpressions
@@ -292,24 +292,17 @@ fileprivate enum Builtins:String{
     case quote,car,cdr,cons,equal,atom,cond,lambda,defun,list
     
     /**
-     True if the given parameter is the quote builtin
+     True if the given parameter stop evaluation of sub-expressions.
+     Sub expressions will be evaluated lazily by the operator.
      
      - Parameter atom: Stringified atom
      - Returns: True if the atom is the quote operation
      */
-    public static func isQuote(_ atom: String) -> Bool {
-        return atom == Builtins.quote.rawValue
-    }
-    
-    /**
-     True if the given parameter is a definition builtin
-     
-     - Parameter atom: Stringified atom
-     - Returns: True if the atom is a definition operation
-     */
-    public static func isDefine(_ atom: String) -> Bool {
-        return (atom == Builtins.defun.rawValue) ||
-               (atom == Builtins.lambda.rawValue)
+    public static func mustSkip(_ atom: String) -> Bool {
+        return  (atom == Builtins.quote.rawValue) ||
+                (atom == Builtins.cond.rawValue) ||
+                (atom == Builtins.defun.rawValue) ||
+                (atom == Builtins.lambda.rawValue)
     }
 }
 
@@ -390,13 +383,14 @@ public var defaultEnvironment: [String: (SExpr)->SExpr] = {
         for el in parameters.dropFirst(1) {
             guard case let .List(c) = el, c.count == 2 else {return .List([])}
             
-            if c[0] != .List([]) {
-                return c[1]
+            if c[0].eval() != .List([]) {
+                let res = c[1].eval()
+                return res!
             }
         }
         return .List([])
     }
-    let defun: (SExpr)->SExpr = {
+    env[Builtins.defun.rawValue] =  {
         params in
         guard case let .List(parameters) = params, parameters.count == 4 else {return .List([])}
         
@@ -420,7 +414,6 @@ public var defaultEnvironment: [String: (SExpr)->SExpr] = {
         localContext[lname] = f
         return .List([])
     }
-    env[Builtins.defun.rawValue] = defun
     env[Builtins.lambda.rawValue] = { params in
         guard case let .List(parameters) = params, parameters.count == 3 else {return .List([])}
         
