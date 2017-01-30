@@ -346,8 +346,7 @@ public var defaultEnvironment: [String: (SExpr)->SExpr] = {
         }
     }
     env[Builtins.equal.rawValue] = {params in
-        guard case let .List(parameters) = params, parameters.count == 2 else {return .List([])}
-        guard case let .List(elements) = params, elements.count == 2 else {return .List([])}
+        guard case let .List(elements) = params, elements.count == 3 else {return .List([])}
         
         var me = env[Builtins.equal.rawValue]!
         
