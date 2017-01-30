@@ -63,6 +63,24 @@ class SwiftyLispTests: XCTestCase {
         XCTAssertEqual(eval("(defun ff (x) (cond ((atom x) x) (true (ff (car x)))))"), .List([])) //Recoursive function
         XCTAssertEqual(eval("(ff (quote ((a b) c)))"), .Atom("a"))
     }
+    
+    func testAbbreviations() {
+        XCTAssertEqual(eval("(defun null (x) (equal x ()))"), .List([]))
+        XCTAssertEqual(eval("(defun cadr (x) (car (cdr x)))"), .List([]))
+        XCTAssertEqual(eval("(defun cddr (x) (cdr (cdr x)))"), .List([]))
+        XCTAssertEqual(eval("(defun and (p q) (cond (p q) (true ())))"), .List([]))
+        XCTAssertEqual(eval("(defun or (p q) (cond (p p) (q q) (true ())) )"), .List([]))
+        XCTAssertEqual(eval("(defun not (p) (cond (p ()) (true p))"), .List([]))
+        XCTAssertEqual(eval("(defun alt (x) (cond ((or (null x) (null (cdr x))) x) (true (cons (car x) (alt (cddr x))))))"), .List([]))
+        XCTAssertEqual(eval("(defun subst (x y z) (cond ((atom z) (cond ((equal z y) x) (true z))) (true (cons (subst x y (car z)) (subst x y (cdr z))))))"), .List([]))
+        XCTAssertEqual(eval("(null a)"), .List([]))
+        XCTAssertEqual(eval("(null ())"), .Atom("true"))
+        XCTAssertEqual(eval("(and a b)"), .Atom("b"))
+        XCTAssertEqual(eval("(or a ())"), .Atom("a"))
+        XCTAssertEqual(eval("(not a)"), .List([]))
+        XCTAssertEqual(eval("(alt (quote (A B C D E))"), .List([.Atom("A"),.Atom("C"),.Atom("E")]))
+        //XCTAssertEqual(eval("(subst (quote (plus x y)) (quote V) (quote(times x v)))"), .List([.Atom("times"),.Atom("x"),.List([.Atom("plus"),.Atom("x"),.Atom("y"),])]))
+    }
 }
 
 #if os(Linux)
