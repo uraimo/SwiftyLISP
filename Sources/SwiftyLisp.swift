@@ -453,6 +453,12 @@ public var defaultEnvironment: [String: (SExpr)->SExpr] = {
         }
         return .List(res)
     }
+    env["println"] = { params in
+        guard case let .List(parameters) = params, parameters.count > 1 else {return .List([])}
+    
+        print(parameters[1])
+        return .List([])
+    }
     
     return env
 }()
