@@ -289,7 +289,8 @@ extension SExpr {
 
 /// Basic builtins
 fileprivate enum Builtins:String{
-    case quote,car,cdr,cons,equal,atom,cond,lambda,defun,list
+    case quote,car,cdr,cons,equal,atom,cond,lambda,defun,list,
+         println,eval
     
     /**
      True if the given parameter stop evaluation of sub-expressions.
@@ -453,11 +454,16 @@ public var defaultEnvironment: [String: (SExpr)->SExpr] = {
         }
         return .List(res)
     }
-    env["println"] = { params in
+    env[Builtins.println.rawValue] = { params in
         guard case let .List(parameters) = params, parameters.count > 1 else {return .List([])}
     
         print(parameters[1])
         return .List([])
+    }
+    env[Builtins.eval.rawValue] = { params in
+        guard case let .List(parameters) = params, parameters.count == 2 else {return .List([])}
+        
+        return parameters[1].eval()!
     }
     
     return env

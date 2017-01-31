@@ -62,6 +62,7 @@ class SwiftyLispTests: XCTestCase {
         XCTAssertEqual(eval("((car (quote (atom))) ())"),.List([]))
         XCTAssertEqual(eval("(defun ff (x) (cond ((atom x) x) (true (ff (car x)))))"), .List([])) //Recoursive function
         XCTAssertEqual(eval("(ff (quote ((a b) c)))"), .Atom("a"))
+        XCTAssertEqual(eval("(eval (quote (atom (quote A)))"),.Atom("true"))
     }
     
     func testAbbreviations() {
