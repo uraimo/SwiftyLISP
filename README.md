@@ -7,7 +7,7 @@
 <a href="https://raw.githubusercontent.com/uraimo/Bitter/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License: MIT" /></a>
 <a href="https://github.com/apple/swift-package-manager"><img src="https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg"/></a>
 <a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-brightgreen.svg"/></a>
-<a href="https://cocoapods.org/pods/SwiftyLISP"><img src="https://img.shields.io/cocoapods/v/Bitter.svg"/></a>
+<a href="https://cocoapods.org/pods/SwiftyLISP"><img src="https://img.shields.io/cocoapods/v/SwiftyLISP.svg"/></a>
 </p>
 
 ## Summary
@@ -20,7 +20,7 @@ The library can be installed with either CocoaPods, Carthage or the SwiftPM.
 
 To include it in your project using the Swift Package Manager, add a dependency to your `Package.swift`:
 
-``
+```
 import PackageDescription
 
 let package = Package(
@@ -30,10 +30,13 @@ let package = Package(
         .Package(url: "https://github.com/uraimo/SwiftyLISP.git")
     ]
 )
-``
+```
+
 Regardless of how you added the framework to your project, import it with `import SwiftyLISP`. 
 
 ## Usage
+
+TBD.
 
 ## License
 
