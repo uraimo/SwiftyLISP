@@ -181,22 +181,6 @@ extension SExpr {
      */
     public static func read(_ sexpr:String) -> SExpr{
         
-        struct ParseError: Error {
-            var message: String
-        }
-        
-        func appendTo(list: SExpr?, node:SExpr) -> SExpr {
-            var list = list
-            
-            if list != nil, case var .List(elements) = list! {
-                elements.append(node)
-                list = .List(elements)
-            }else{
-                list = node
-            }
-            return list!
-        }
-        
         enum Token{
             case pOpen,pClose,textBlock(String)
         }
@@ -237,6 +221,22 @@ extension SExpr {
             return res
         }
         
+        struct ParseError: Error {
+            var message: String
+        }
+        
+        func appendTo(list: SExpr?, node:SExpr) -> SExpr {
+            var list = list
+            
+            if list != nil, case var .List(elements) = list! {
+                elements.append(node)
+                list = .List(elements)
+            }else{
+                list = node
+            }
+            return list!
+        }
+        
         /**
          Parses a series of tokens to obtain a hierachical S-Expression
          
@@ -245,7 +245,7 @@ extension SExpr {
          
          - Returns: Tuple with remaning tokens and resulting S-Expression
          */
-        func parse(_ tokens: [Token], node: SExpr? = nil) -> ([Token], SExpr?) {
+        func parse(_ tokens: [Token], node: SExpr? = nil) -> (remaining:[Token], subexpr:SExpr?) {
             var tokens = tokens
             var node = node
             
@@ -269,7 +269,7 @@ extension SExpr {
                     }
                 case .pClose:
                     //close sexpr
-                    return (Array(tokens[(i+1)..<tokens.count]),node: node)
+                    return ( Array(tokens[(i+1)..<tokens.count]), node)
                 case let .textBlock(value):
                     node = appendTo(list: node, node: .Atom(value))
                 }
@@ -282,7 +282,7 @@ extension SExpr {
         
         let tokens = tokenize(sexpr)
         let res = parse(tokens)
-        return res.1 ?? .List([])
+        return res.subexpr ?? .List([])
     }
 }
 
