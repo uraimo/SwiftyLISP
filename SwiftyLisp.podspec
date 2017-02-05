@@ -1,9 +1,9 @@
 Pod::Spec.new do |s|
   s.name         = "SwiftyLisp"
-  s.version      = "1.0"
-  s.summary      = ""
+  s.version      = "1.0.2"
+  s.summary      = "An embeddable LISP interpreter"
   s.description  = <<-DESC
-    Your description here.
+    A LISP interpreter based on McCarthy micro-manual paper.
   DESC
   s.homepage     = "https://github.com/uraimo/swiftylisp"
   s.license      = { :type => "MIT", :file => "LICENSE" }
