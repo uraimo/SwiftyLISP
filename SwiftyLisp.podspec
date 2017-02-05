@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "SwiftyLisp"
-  s.version      = "0.1"
+  s.version      = "1.0"
   s.summary      = ""
   s.description  = <<-DESC
     Your description here.
@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/uraimo/swiftylisp"
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author             = { "Umberto Raimondi" => "me@uraimo.com" }
-  s.social_media_url   = ""
+  s.social_media_url   = "https://twitter.com/uraimo"
   s.ios.deployment_target = "8.0"
   s.osx.deployment_target = "10.9"
   s.watchos.deployment_target = "2.0"
