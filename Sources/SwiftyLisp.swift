@@ -61,7 +61,7 @@ public enum SExpr{
      - Parameter environment: A set of named functions or the default environment
      - Returns: the resulting SExpression after evaluation
      */
-    public func eval(_ environment: [String: (SExpr)->SExpr] = defaultEnvironment) -> SExpr?{
+    public func eval() -> SExpr?{
         var node = self
         
         switch node {
@@ -78,7 +78,7 @@ public enum SExpr{
             if !skip {
                 elements = elements.map{
                     if case .List(_) = $0 {
-                        return $0.eval(environment)!
+                        return $0.eval()!
                     }
                     return $0
                 }
@@ -86,7 +86,7 @@ public enum SExpr{
             node = .List(elements)
             
             // Obtain a a reference to the function represented by the first atom and apply it, local definitions shadow global ones
-            if elements.count > 0, case let .Atom(value) = elements[0], let f = localContext[value] ?? environment[value] {
+            if elements.count > 0, case let .Atom(value) = elements[0], let f = localContext[value] ?? defaultEnvironment[value] {
                 let r = f(node)
                 return r
             }
@@ -314,7 +314,7 @@ public var localContext = [String: (SExpr)->SExpr]()
 /// Global default builtin functions environment
 ///
 /// Contains definitions for: quote,car,cdr,cons,equal,atom,cond,lambda,label,defun.
-public var defaultEnvironment: [String: (SExpr)->SExpr] = {
+private var defaultEnvironment: [String: (SExpr)->SExpr] = {
     
     var env = [String: (SExpr)->SExpr]()
     env[Builtins.quote.rawValue] = { params in
