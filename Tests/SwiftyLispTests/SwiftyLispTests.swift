@@ -38,6 +38,8 @@ class SwiftyLispTests: XCTestCase {
         XCTAssertEqual(eval("(quote (A B C))"), .List([.Atom("A"),.Atom("B"),.Atom("C")]))
         XCTAssertEqual(eval("(equal A A)"), .Atom("true"))
         XCTAssertEqual(eval("(equal () ())"), .Atom("true"))
+        XCTAssertEqual(eval("(equal true true)"), .Atom("true"))
+        XCTAssertEqual(eval("(equal (quote true) (atom A))"), .Atom("true"))
         XCTAssertEqual(eval("(equal A ())"), .List([]))
         XCTAssertEqual(eval("(quote A)"), .Atom("A"))
         XCTAssertEqual(eval("(quote 1)"), .Atom("1"))
@@ -80,6 +82,7 @@ class SwiftyLispTests: XCTestCase {
         XCTAssertEqual(eval("(or a ())"), .Atom("a"))
         XCTAssertEqual(eval("(not a)"), .List([]))
         XCTAssertEqual(eval("(alt (quote (A B C D E))"), .List([.Atom("A"),.Atom("C"),.Atom("E")]))
+        //XCTAssertEqual(eval("(subst (quote z) (quote x) (quote (x x x x)))"), .List([.Atom("z"),.Atom("z"),.Atom("z"),.Atom("z")]))
         //XCTAssertEqual(eval("(subst (quote (plus x y)) (quote V) (quote(times x v)))"), .List([.Atom("times"),.Atom("x"),.List([.Atom("plus"),.Atom("x"),.Atom("y"),])]))
     }
 }

@@ -221,10 +221,6 @@ extension SExpr {
             return res
         }
         
-        struct ParseError: Error {
-            var message: String
-        }
-        
         func appendTo(list: SExpr?, node:SExpr) -> SExpr {
             var list = list
             
