@@ -12,7 +12,45 @@
 
 ## Summary
 
-This framework contains a LISP interpreter that can be included in any Swift project.
+This framework contains an interpreter for the LISP described in [John McCarthy's micro-manual](https://www.uraimo.com/files/MicroManual-LISP.pdf) and described in [this article](https://www.uraimo.com/2017/02/06/building-a-lisp-from-scratch-with-swift/).
+
+## Usage
+
+The framework converts string literals in nested structures based on the `SExpr` enum that can then be evaluated.
+
+Let's see some usage examples:
+
+```swift
+import SwiftyLisp
+
+var expr:SExpr = "(cond ((atom (quote A)) (quote B)) ((quote true) (quote C)))"
+
+print(expr)
+dump(expr)
+print(expr.eval()!)  //B
+
+expr = "(car ( cdr  ( quote (1 2 \"aaaa\"   4 5 true 6 7 () ))))"
+print(expr.eval()!)  //2
+
+expr = "( (lambda (x y) (atom x)) a b)" 
+print(expr.eval()!)  //true
+
+expr = "(defun ff (x) (cond ((atom x) x) (true (ff (car x)))))"
+print(expr.eval()!)
+expr = "(ff (quote ((a b) c)))"
+print(expr.eval()!)  //a
+
+expr = "(eval (quote (atom (quote A)))"
+print(expr.eval()!)  //true
+
+expr = "(defun alt (x) (cond ((or (null x) (null (cdr x))) x) (true (cons (car x) (alt (cddr x))))))"
+print(expr.eval()!)
+expr = "(alt (quote (A B C D E))"
+print(expr.eval()!)  //(A C E)
+ 
+```
+
+Additional examples can be found in the test suite of the framework.
 
 ## Installation
 
