@@ -61,12 +61,12 @@ public enum SExpr{
      - Parameter environment: A set of named functions or the default environment
      - Returns: the resulting SExpression after evaluation
      */
-    public func eval() -> SExpr?{
+    public func eval(with locals: [SExpr]? = nil, for values: [SExpr]? = nil) -> SExpr?{
         var node = self
         
         switch node {
         case .Atom:
-            return node
+            return evaluateVariable(node, with:locals, for:values)
         case var .List(elements):
             var skip = false
             
@@ -77,17 +77,14 @@ public enum SExpr{
             // Evaluate all subexpressions
             if !skip {
                 elements = elements.map{
-                    if case .List(_) = $0 {
-                        return $0.eval()!
-                    }
-                    return $0
+                    return $0.eval(with:locals, for:values)!
                 }
             }
             node = .List(elements)
             
             // Obtain a a reference to the function represented by the first atom and apply it, local definitions shadow global ones
             if elements.count > 0, case let .Atom(value) = elements[0], let f = localContext[value] ?? defaultEnvironment[value] {
-                let r = f(node)
+                let r = f(node,locals,values)
                 return r
             }
             
@@ -95,21 +92,13 @@ public enum SExpr{
         }
     }
     
-    public func replace(this:[SExpr], with:[SExpr]) -> SExpr{
-        let node = self
+    private func evaluateVariable(_ v: SExpr, with locals: [SExpr]?, for values: [SExpr]?) -> SExpr {
+        guard let locals = locals, let values = values else {return v}
         
-        switch node {
-        case .Atom:
-            if this.contains(node) {
-                return with[this.index(of: node)!]
-            }
-            return node
-        case var .List(elements):
-            // Search all subexpressions
-            elements = elements.map{
-                return $0.replace(this: this, with: with)
-            }
-            return .List(elements)
+        if locals.contains(v) {
+            return values[locals.index(of: v)!]
+        }else{
+            return v
         }
     }
     
@@ -305,56 +294,56 @@ fileprivate enum Builtins:String{
 
 
 /// Local environment for locally defined functions
-public var localContext = [String: (SExpr)->SExpr]()
+public var localContext = [String: (SExpr, [SExpr]?, [SExpr]?)->SExpr]()
 
 /// Global default builtin functions environment
 ///
 /// Contains definitions for: quote,car,cdr,cons,equal,atom,cond,lambda,label,defun.
-private var defaultEnvironment: [String: (SExpr)->SExpr] = {
+private var defaultEnvironment: [String: (SExpr, [SExpr]?, [SExpr]?)->SExpr] = {
     
-    var env = [String: (SExpr)->SExpr]()
-    env[Builtins.quote.rawValue] = { params in
+    var env = [String: (SExpr, [SExpr]?, [SExpr]?)->SExpr]()
+    env[Builtins.quote.rawValue] = { params,locals,values in
         guard case let .List(parameters) = params, parameters.count == 2 else {return .List([])}
         return parameters[1]
     }
-    env[Builtins.car.rawValue] = { params in
+    env[Builtins.car.rawValue] = { params,locals,values in
         guard case let .List(parameters) = params, parameters.count == 2 else {return .List([])}
         guard case let .List(elements) = parameters[1], elements.count > 0 else {return .List([])}
         
         return elements.first!
     }
-    env[Builtins.cdr.rawValue] = { params in
+    env[Builtins.cdr.rawValue] = { params,locals,values in
         guard case let .List(parameters) = params, parameters.count == 2 else {return .List([])}
         
         guard case let .List(elements) = parameters[1], elements.count > 1 else {return .List([])}
         
         return .List(Array(elements.dropFirst(1)))
     }
-    env[Builtins.cons.rawValue] = { params in
+    env[Builtins.cons.rawValue] = { params,locals,values in
         guard case let .List(parameters) = params, parameters.count == 3 else {return .List([])}
         
         guard case .List(let elRight) = parameters[2] else {return .List([])}
         
-        switch parameters[1]{
-        case .Atom:
-            return .List([parameters[1]]+elRight)
+        switch parameters[1].eval(with: locals,for: values)!{
+        case let .Atom(p):
+            return .List([.Atom(p)]+elRight)
         default:
             return .List([])
         }
     }
-    env[Builtins.equal.rawValue] = {params in
+    env[Builtins.equal.rawValue] = {params,locals,values in
         guard case let .List(elements) = params, elements.count == 3 else {return .List([])}
         
         var me = env[Builtins.equal.rawValue]!
         
-        switch (elements[1],elements[2]) {
+        switch (elements[1].eval(with: locals,for: values)!,elements[2].eval(with: locals,for: values)!) {
         case (.Atom(let elLeft),.Atom(let elRight)):
             return elLeft == elRight ? .Atom("true") : .List([])
         case (.List(let elLeft),.List(let elRight)):
             guard elLeft.count == elRight.count else {return .List([])}
             for (idx,el) in elLeft.enumerated() {
                 let testeq:[SExpr] = [.Atom("Equal"),el,elRight[idx]]
-                if me(.List(testeq)) != SExpr.Atom("true") {
+                if me(.List(testeq),locals,values) != SExpr.Atom("true") {
                     return .List([])
                 }
             }
@@ -363,31 +352,30 @@ private var defaultEnvironment: [String: (SExpr)->SExpr] = {
             return .List([])
         }
     }
-    env[Builtins.atom.rawValue] = { params in
+    env[Builtins.atom.rawValue] = { params,locals,values in
         guard case let .List(parameters) = params, parameters.count == 2 else {return .List([])}
         
-        switch parameters[1] {
+        switch parameters[1].eval(with: locals,for: values)! {
         case .Atom:
             return .Atom("true")
         default:
             return .List([])
         }
     }
-    env[Builtins.cond.rawValue] = { params in
+    env[Builtins.cond.rawValue] = { params,locals,values in
         guard case let .List(parameters) = params, parameters.count > 1 else {return .List([])}
         
         for el in parameters.dropFirst(1) {
             guard case let .List(c) = el, c.count == 2 else {return .List([])}
             
-            if c[0].eval() != .List([]) {
-                let res = c[1].eval()
+            if c[0].eval(with: locals,for: values) != .List([]) {
+                let res = c[1].eval(with: locals,for: values)
                 return res!
             }
         }
         return .List([])
     }
-    env[Builtins.defun.rawValue] =  {
-        params in
+    env[Builtins.defun.rawValue] =  { params,locals,values in
         guard case let .List(parameters) = params, parameters.count == 4 else {return .List([])}
         
         guard case let .Atom(lname) = parameters[1] else {return .List([])}
@@ -395,12 +383,12 @@ private var defaultEnvironment: [String: (SExpr)->SExpr] = {
         
         let lambda = parameters[3]
         
-        let f: (SExpr)->SExpr = { params in
+        let f: (SExpr, [SExpr]?, [SExpr]?)->SExpr = { params,locals,values in
             guard case var .List(p) = params else {return .List([])}
             p = Array(p.dropFirst(1))
             
             // Replace parameters in the lambda with values
-            if let result = lambda.replace(this:vars, with:p).eval(){
+            if let result = lambda.eval(with:vars, for:p){
                 return result
             }else{
                 return .List([])
@@ -410,7 +398,7 @@ private var defaultEnvironment: [String: (SExpr)->SExpr] = {
         localContext[lname] = f
         return .List([])
     }
-    env[Builtins.lambda.rawValue] = { params in
+    env[Builtins.lambda.rawValue] = { params,locals,values in
         guard case let .List(parameters) = params, parameters.count == 3 else {return .List([])}
         
         guard case let .List(vars) = parameters[1] else {return .List([])}
@@ -418,14 +406,14 @@ private var defaultEnvironment: [String: (SExpr)->SExpr] = {
         //Assign a name for this temporary closure
         let fname = "TMP$"+String(arc4random_uniform(UInt32.max))
         
-        let f: (SExpr)->SExpr = { params in
+        let f: (SExpr, [SExpr]?, [SExpr]?)->SExpr = { params,locals,values in
             guard case var .List(p) = params else {return .List([])}
             p = Array(p.dropFirst(1))
             //Remove temporary closure
             localContext[fname] = nil
             
             // Replace parameters in the lambda with values
-            if let result = lambda.replace(this:vars, with:p).eval(){
+            if let result = lambda.eval(with:vars, for:p){
                 return result
             }else{
                 return .List([])
@@ -436,7 +424,7 @@ private var defaultEnvironment: [String: (SExpr)->SExpr] = {
         return .Atom(fname)
     }
     //List implemented as a classic builtin instead of a series of cons
-    env[Builtins.list.rawValue] = { params in
+    env[Builtins.list.rawValue] = { params,locals,values in
         guard case let .List(parameters) = params, parameters.count > 1 else {return .List([])}
         var res: [SExpr] = []
         
@@ -450,16 +438,16 @@ private var defaultEnvironment: [String: (SExpr)->SExpr] = {
         }
         return .List(res)
     }
-    env[Builtins.println.rawValue] = { params in
+    env[Builtins.println.rawValue] = { params,locals,values in
         guard case let .List(parameters) = params, parameters.count > 1 else {return .List([])}
     
-        print(parameters[1])
+        print(parameters[1].eval(with: locals,for: values)!)
         return .List([])
     }
-    env[Builtins.eval.rawValue] = { params in
+    env[Builtins.eval.rawValue] = { params,locals,values in
         guard case let .List(parameters) = params, parameters.count == 2 else {return .List([])}
         
-        return parameters[1].eval()!
+        return parameters[1].eval(with: locals,for: values)!
     }
     
     return env
