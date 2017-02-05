@@ -72,10 +72,6 @@ let package = Package(
 
 Regardless of how you added the framework to your project, import it with `import SwiftyLISP`. 
 
-## Usage
-
-TBD.
-
 ## License
 
 The MIT License (MIT)
