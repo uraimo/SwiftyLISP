@@ -1,13 +1,13 @@
 Pod::Spec.new do |s|
   s.name         = "SwiftyLisp"
-  s.version      = "1.0.2"
+  s.version      = "1.0.3"
   s.summary      = "An embeddable LISP interpreter"
   s.description  = <<-DESC
     A LISP interpreter based on McCarthy micro-manual paper.
   DESC
-  s.homepage     = "https://github.com/uraimo/swiftylisp"
+  s.homepage     = "https://github.com/uraimo/SwiftyLisp"
   s.license      = { :type => "MIT", :file => "LICENSE" }
-  s.author             = { "Umberto Raimondi" => "me@uraimo.com" }
+  s.author             = "Umberto Raimondi"
   s.social_media_url   = "https://twitter.com/uraimo"
   s.ios.deployment_target = "8.0"
   s.osx.deployment_target = "10.9"
