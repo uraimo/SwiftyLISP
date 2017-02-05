@@ -96,8 +96,10 @@ public enum SExpr{
         guard let locals = locals, let values = values else {return v}
         
         if locals.contains(v) {
+            // The current atom is a variable, replace it with its value
             return values[locals.index(of: v)!]
         }else{
+            // Not a variable, just return it
             return v
         }
     }
