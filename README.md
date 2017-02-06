@@ -50,7 +50,24 @@ print(expr.eval()!)  //(A C E)
  
 ```
 
-Additional examples can be found in the test suite of the framework.
+Here is a recap of the available operators:
+
+| Atom | Structure | Description |
+|------|-----|---------|
+| Print    | (print e) | Prints its sub-expression |
+| Eval     | (eval e) | Eval evaluates its sub-expression |
+| Quote    | (quote e) | This atom once evaluated returns its sub-expression **as is**, _e.g. (quote A) = A_ |
+| Car | (car l) | Returns the first element of a non-empty sub-list, _e.g. (car (quote (A B C))) = A_ |
+| Cdr | (cdr l) | Returns all the elements of the sub-list after the first in a new list, _e.g. (cdr (quote (A B C))) = (B C)_ |
+| Cons | (cons e l) | Returns a new list with e as first element and then the content of the sublist _e.g. (cons (quote A) (quote (B C))) = (A B C)_ |
+| Equal | (equal e1 e2) | Returns an atom aptly named **true** if the two symbolic expressions are recursively equal and the empty list **()** (that serves as both nil and false value) if they are not, _e.g. (equal (car (quote (A B))) = (quote A))_ |
+| Atom | (atom e) | Returns true if the symbolic expression is an atom or an empty list if it is a lis, _e.g. (atom A) = true_ |
+| Cond | (cond (p1 e1) (p2 e2) ... (pn en)) | Returns the first **e** expression whose **p** predicate expression is not equal to the empty list. This is basically a conditional atom with a slightly more convoluted syntax than a common if construct. _e.g. (cond ((atom (quote A)) (quote B)) ((quote true) (quote C) = B_ |
+| List | (list e1 e2 ... en) | Returns a list of all the given expressions, identical to applying cons recursively to a sequence of expressions. |
+| Lambda | ( (lambda (v1 ... vn) e) p1 ... pn) | Defines a lambda expression with body **e** that describes an anonymous function that uses a series of environment variables **v**. This function will be evaluated using the provided parameters as value for the variables. _e.g. ((lambda (X Y) (cons (car x) y) (quote (A B)) (cdr (quote (C D)))) = (A D)_ |
+| Defun | (defun <name> (v1 ... vn) e) | Define a lambda expression and registers it in the current context to be used when we need it. We'll be able to define a function like _(defun cadr (X) (car (cdr x)))_  and use it in another expression like _(cadr (quote (A B C D)))_. |
+
+Additional examples, and the additional functions and acronyms defined in the paper, can be found in the test suite of the framework.
 
 ## Installation
 
