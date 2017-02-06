@@ -58,7 +58,7 @@ The library can be installed with either CocoaPods, Carthage or the SwiftPM.
 
 To include it in your project using the Swift Package Manager, add a dependency to your `Package.swift`:
 
-```
+```swift
 import PackageDescription
 
 let package = Package(
