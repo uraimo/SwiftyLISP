@@ -12,7 +12,7 @@
 
 ## Summary
 
-This framework contains an interpreter for the LISP described in [John McCarthy's micro-manual](https://www.uraimo.com/files/MicroManual-LISP.pdf) and described in [this article](https://www.uraimo.com/2017/02/05/building-a-lisp-from-scratch-with-swift/).
+This framework contains an interpreter for the LISP defined in [John McCarthy's micro-manual](https://www.uraimo.com/files/MicroManual-LISP.pdf) and described in [this article](https://www.uraimo.com/2017/02/05/building-a-lisp-from-scratch-with-swift/).
 
 ## Usage
 
@@ -70,7 +70,7 @@ let package = Package(
 )
 ```
 
-Regardless of how you added the framework to your project, import it with `import SwiftyLISP`. 
+Regardless of how you added the framework to your project, import it with `import SwiftyLisp`. 
 
 ## License
 
