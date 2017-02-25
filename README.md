@@ -7,7 +7,7 @@
 <a href="https://raw.githubusercontent.com/uraimo/Bitter/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License: MIT" /></a>
 <a href="https://github.com/apple/swift-package-manager"><img src="https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg"/></a>
 <a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-brightgreen.svg"/></a>
-<a href="https://cocoapods.org/pods/SwiftyLISP"><img src="https://img.shields.io/cocoapods/v/SwiftyLISP.svg"/></a>
+<a href="https://cocoapods.org/pods/SwiftyLISP"><img src="https://img.shields.io/cocoapods/v/SwiftyLisp.svg"/></a>
 </p>
 
 ## Summary
