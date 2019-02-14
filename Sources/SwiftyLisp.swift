@@ -186,7 +186,7 @@ extension SExpr {
             var res = [Token]()
             var tmpText = ""
             
-            for c in sexpr.characters {
+            for c in sexpr {
                 switch c {
                 case "(":
                     if tmpText != "" {
