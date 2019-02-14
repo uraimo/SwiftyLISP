@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "SwiftyLisp"
-  s.version      = "2.0.0"
+  s.version      = "2.0.1"
   s.summary      = "An embeddable LISP interpreter"
   s.description  = <<-DESC
     A LISP interpreter based on McCarthy micro-manual paper.
